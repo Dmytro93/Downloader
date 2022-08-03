@@ -1,0 +1,158 @@
+﻿<Window x:Class="Downloader.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Downloader"
+        xmlns:cefsharpwpf="clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf"
+        mc:Ignorable="d"
+        Closed="Window_Closed"
+        Title="MainWindow" Height="750" Width="1450" Loaded="Window_Loaded" MinHeight="750">
+
+    <Grid Margin="0,-6,-0.4,6">
+        <TabControl Margin="5,5,5,5" Background="#FFFDC866" >
+            <TabItem Header="Browser" Name="BrowserTab" Margin="-2,0,-1.4,0.6" Height="25">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="128*"></ColumnDefinition>
+                        <ColumnDefinition Width="12*"/>
+                        <ColumnDefinition Width="15*"/>
+                        <ColumnDefinition Width="1279*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="20*"></RowDefinition>
+                        <RowDefinition Height="500*"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <DockPanel Grid.Row="0" Grid.ColumnSpan="4" Margin="0,0,0,1">
+                        <Button Margin="3,1,3,1" Content="GoBack" Name="GoBack" Click="GoBack_Click"></Button>
+                        <Button Margin="3,1,3,1" Content="GoForward" Name="GoForward" Click="GoForward_Click"></Button>
+                        <Button Margin="3,1,3,1" Content="GoTo" Name="GoTo" Click="GoTo_Click" RenderTransformOrigin="0.506,0.5"></Button>
+                        <ComboBox Name="History" Width="131" SelectionChanged="history_change" Margin="0,0,0,0.4"></ComboBox>
+                        <TextBox Margin="3,1,3,1.4" Name="txtbox51"></TextBox>
+                    </DockPanel>
+                    <cefsharpwpf:ChromiumWebBrowser Grid.Row="1" MinHeight="500" VerticalContentAlignment="Stretch" Margin="5,4,5,5" Name="Browser" Address="about:blank" FrameLoadEnd="ChromiumWebBrowser_OnFrameLoadEnd" Grid.ColumnSpan="4"/>
+                </Grid>
+
+            </TabItem>
+            <TabItem Name="Tab3" Margin="11.6,-1,-12,1.6" Width="50" Height="25" Header="Name" HorizontalAlignment="Left">
+                <StackPanel>
+                    <Grid ShowGridLines="False">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="6*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                            <ColumnDefinition Width="1*"></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="3*"></RowDefinition>
+                            <RowDefinition Height="3*"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Button Content="Start" Grid.ColumnSpan="2" Grid.Column="1" Margin="15,3,15,3" Name="VideoWebsiteBtn" Click="VideoWebsiteBtn_Click"></Button>
+
+                        <StackPanel Grid.Row="1" Grid.Column="0" Margin="5,5,5,5">
+                            <TextBox Margin="3"  MinHeight="25" Name="txtBox32" TextChanged="txtBox32_TextChanged"></TextBox>
+                            <DataGrid AutoGeneratingColumn="PTDataGrid_AutoGeneratingColumn" x:Name="PTDataGrid" Margin="3" MinHeight="150" MaxHeight="200" SelectionMode="Single" SelectionChanged="PTDataGrid_SelectionChanged" >
+                                <DataGrid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Name="ChangeDataMenuItem" Header="To Models/Categories/Members" Click="Click_ChangeData"></MenuItem>
+                                        <MenuItem Header="Get Videos Info" Click="Click_GetVideosInfo"></MenuItem>
+                                    </ContextMenu>
+                                </DataGrid.ContextMenu>
+                            </DataGrid>
+                            <TextBox Name="FilterVideos" Margin="3" TextChanged="FilterVideos_TextChanged"></TextBox>
+                            <DataGrid x:Name="TrexVideoDataGrid" RowEditEnding="TrexVideoDataGrid_RowEditEnding" AutoGeneratingColumn="TrexVideoDataGrid_AutoGeneratingColumn" SelectionChanged="TrexVideoDataGrid_SelectionChanged" Margin="3" MinHeight="150"  MaxHeight="200" SelectionMode="Single">
+                                <DataGrid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Get Links" Click="Click_ToSearch"></MenuItem>
+                                    </ContextMenu>
+                                </DataGrid.ContextMenu>
+                            </DataGrid>
+                            <DataGrid x:Name="TrexVideoLinks" Margin="3" MinHeight="245"  MaxHeight="200" SelectionMode="Single" >
+                                <DataGrid.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Play Video" Click="Click_ToPlay"></MenuItem>
+                                        <MenuItem Header="Copy Name + Url" Click="Click_ToCopy"></MenuItem>
+                                    </ContextMenu>
+                                </DataGrid.ContextMenu>
+                            </DataGrid>
+                        </StackPanel>
+                        <StackPanel Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Margin="15,15,5,15" Grid.ColumnSpan="2">
+                            <Grid ShowGridLines="False">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition MinHeight="50" Height="1*"></RowDefinition>
+                                    <RowDefinition MinHeight="50" Height="1*"></RowDefinition>
+                                    <RowDefinition MinHeight="50" Height="1*"></RowDefinition>
+                                </Grid.RowDefinitions>
+                                <StackPanel Grid.Row="1">
+                                    <ComboBox IsEnabled="False" Name="fileItems" Margin="1" SelectionChanged="fileItems_SelectionChanged">
+                                        <ComboBoxItem>Categories</ComboBoxItem>
+                                        <ComboBoxItem>Members</ComboBoxItem>
+                                        <ComboBoxItem IsSelected="True">Models</ComboBoxItem>
+                                        <ComboBoxItem>DirectLinks</ComboBoxItem>
+                                    </ComboBox>
+                                    <Button Content="Like" Margin="5" x:Name="VideoWebsite_Like" Click="VideoWebsiteLike_Click"/>
+                                    <CheckBox x:Name="useChromeDriverVideoWebsite">Use Chrome</CheckBox>
+                                    <CheckBox x:Name="toDataGrid" IsChecked="True">To DataGrid</CheckBox>
+                                    <CheckBox x:Name="albums" IsChecked="False" Checked="albums_Checked">Albums</CheckBox>
+                                    <CheckBox x:Name="tryGetImageSize" IsChecked="False">Try Get Image Size</CheckBox>
+                                    <ComboBox Name="qList" Margin="1">
+                                        <ComboBoxItem>360p</ComboBoxItem>
+                                        <ComboBoxItem>480p</ComboBoxItem>
+                                        <ComboBoxItem>720p</ComboBoxItem>
+                                        <ComboBoxItem>1080p</ComboBoxItem>
+                                        <ComboBoxItem IsSelected="True">1440p</ComboBoxItem>
+                                        <ComboBoxItem>2160p</ComboBoxItem>
+                                    </ComboBox>
+                                    <CheckBox x:Name="autoPlay" IsChecked="True">Auto Play</CheckBox>
+                                    <Button Content="Login" Margin="5,5,5.4,5" x:Name="VideoWebsite_login" Click="VideoWebsiteLogin_Click"/>
+                                    <Button Content="Categories and models" Name="GetCatsAndModels" Margin="5" Click="GetCatsAndModels_Click"></Button>
+                                    <TextBlock x:Name="ProcessInfo" Text="Process Info" Margin="5"></TextBlock>
+                                </StackPanel>
+                                <StackPanel Grid.Row="2">
+                                    <Image Name="ImagePreview" Grid.RowSpan="2" MinHeight="168" Height="168" Margin="5"></Image>
+                                    <DataGrid Name="PreviewPhotoDataGrid" Height="180" SelectionChanged="PreviewPhotoDataGrid_SelectionChanged"></DataGrid>
+                                </StackPanel>
+                            </Grid>
+
+                        </StackPanel>
+                        <TextBox Margin="5,5,5,5" MinHeight="25" Name="txtBox31"></TextBox>
+                    </Grid>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Name" Margin="17.2,0,-17.6,0.6" Width="50" Height="25" >
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"></ColumnDefinition>
+                        <ColumnDefinition Width="2*"></ColumnDefinition>
+                        <ColumnDefinition Width="1*"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.ColumnSpan="2" Margin="0,0,0.4,10.2" Grid.RowSpan="3">
+                        <TextBox Name="txtbox41" Margin="5" MinHeight="35" TextChanged="txtbox41_TextChanged"></TextBox>
+                        <TextBox Name="txtbox42" AcceptsReturn="True" TextWrapping="WrapWithOverflow" VerticalScrollBarVisibility="Auto" Margin="5,5,5.4,5" MinHeight="95" Height="75" TextChanged="txtbox42_TextChanged"></TextBox>
+                        <TextBox Name="txtbox45" AcceptsReturn="True" TextWrapping="WrapWithOverflow" VerticalScrollBarVisibility="Auto" Margin="5,5,5.4,5" MinHeight="20" Height="20" TextChanged="txtbox45_TextChanged"></TextBox>
+                        <ListBox SelectionMode="Extended" Name="listbox43" Margin="5,5,5.4,5" MinHeight="95" Height="258"  SelectionChanged="listbox43_SelectionChanged"></ListBox>
+                        <ListBox SelectionMode="Extended" Name="listbox44" Margin="5,5,5.4,5" MinHeight="95" Height="120" SelectionChanged="listbox44_SelectionChanged"></ListBox>
+                    </StackPanel>
+                    <StackPanel Grid.Column="3" Grid.ColumnSpan="2" Grid.RowSpan="3">
+                        <Button IsEnabled="False" Name="VipersInfo" Content="VipersInfo" Margin="5" Click="VipersInfo_Click"></Button>
+                        <Button x:Name="Search" Content="Search" Margin="5,20,4.8,5" Click="Search_Click"/>
+                        <Button x:Name="Get_Threads" Content="Get Threads" Margin="5,20,4.8,5" Click="GetThreads_Click"/>
+                        <Button x:Name="Favorites" Content="Add to favorites" Margin="5,20,4.8,5" Click="Favorites_Click"/>
+                        <Button x:Name="DeleteFavs" Content="Delete from favorites" Margin="5,20,4.8,5" Click="DeleteFavs_Click"/>
+                        <Button x:Name="SelectAll" Content="SelectAll"  Margin="5,20,4.8,5" Click="SelectAll_Click"/>
+                        <Button x:Name="Unselect" Content="Unselect"  Margin="5,20,4.8,5" Click="Unselect_Click"/>
+                        <Button x:Name="AliasesAtSites" Content="PTG Aliases" Margin="5,20,4.8,5" Click="AliasesAtSites_Click" />
+                        <ListBox Name="aliasListBox" Height="100" SelectionMode="Single" Margin="5" SelectionChanged="aliasListBox_SelectionChanged"></ListBox>
+                        <ListBox Name="websiteListBox" SelectionMode="Extended" Height="150" Margin="5" VerticalAlignment="Stretch"></ListBox>
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+
+</Window>
